@@ -26,7 +26,6 @@ sub init {
 sub validate_client {
     my ($self, $client_id, $client_secret, $grant_type) = @_;
     die "abstract method";
-    return 1;
 }
 
 sub get_user_id {
@@ -85,6 +84,26 @@ sub get_access_token {
 
 sub get_auth_info_by_id {
     my ($self, $id) = @_;
+    die "abstract method";
+}
+
+sub is_allowed_client_to_issue_grouping_refresh_token {
+    my ($self, $client_id) = @_;
+    die "abstract method";
+}
+
+sub get_group_id_by_client_id {
+    my ($self, $client_id) = @_;
+    die "abstract method";
+}
+
+sub validate_client_package {
+    my ($self, %params) = @_;
+    die "abstract method";
+}
+
+sub validate_grouping_scope {
+    my ($self, $client_id, $scope) = @_;
     die "abstract method";
 }
 
@@ -202,6 +221,18 @@ After checking if token is valid, you can check if the user related the token
 is valid in this method.
 
 If the validation of the user is successful, return 1. Otherwise return 0.
+
+=head2 get_group_id_by_client_id ( $client_id )
+
+If client_id has group_id, return it.
+
+=head2 validate_client_package ( %args )
+
+If client_id and package_id are valid, return 1.
+
+=head2 validate_grouping_scope ( $client_id, $scope )
+
+If scope value is allowed, return 1.
 
 =head1 AUTHOR
 

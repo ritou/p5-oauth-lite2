@@ -41,6 +41,7 @@ L<OAuth::Lite2::Server::GrantHandlers>
 L<OAuth::Lite2::Server::GrantHandler::AuthorizationCode>
 L<OAuth::Lite2::Server::GrantHandler::Password>
 L<OAuth::Lite2::Server::GrantHandler::RefreshToken>
+L<OAuth::Lite2::Server::GrantHandler::GroupingRefreshToken>
 
 =head1 AUTHOR
 

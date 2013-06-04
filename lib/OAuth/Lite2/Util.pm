@@ -13,6 +13,7 @@ our %EXPORT_TAGS = ( all => [qw(
     decode_param
     parse_content
     build_content
+    is_equal_or_down_scope
 )] );
 
 our @EXPORT_OK = map { @$_ } values %EXPORT_TAGS;
@@ -88,6 +89,24 @@ sub build_content {
         }
     }
     return join("&", sort @pairs);
+}
+
+=head2 is_equal_or_down_scope ($src_scope, $dst_scope)
+
+=cut
+
+sub is_equal_or_down_scope {
+    my ($src_scope_string, $dst_scope_string) = @_;
+
+    my ( @src_scopes, @dst_scopes );
+    @src_scopes = split /\s/, $src_scope_string if ( $src_scope_string );
+    @dst_scopes = split /\s/, $dst_scope_string if ( $dst_scope_string );
+
+    return 1 unless ( @dst_scopes );
+    foreach my $scope ( @dst_scopes ) {
+        return 0 unless (grep {$_ eq $scope} @src_scopes );
+    }
+    return 1;
 }
 
 1;
