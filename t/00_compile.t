@@ -34,7 +34,6 @@ BEGIN {
     # client
     use_ok('OAuth::Lite2::Client::ClientCredentials');
     use_ok('OAuth::Lite2::Client::Error');
-    use_ok('OAuth::Lite2::Client::GroupingTokenResponseParser');
     use_ok('OAuth::Lite2::Client::Token');
     use_ok('OAuth::Lite2::Client::TokenResponseParser');
     use_ok('OAuth::Lite2::Client::WebServer');

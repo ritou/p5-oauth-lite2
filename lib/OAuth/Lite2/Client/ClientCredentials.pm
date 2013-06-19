@@ -15,7 +15,6 @@ use Params::Validate qw(HASHREF);
 use OAuth::Lite2;
 use OAuth::Lite2::Util qw(build_content);
 use OAuth::Lite2::Client::TokenResponseParser;
-use OAuth::Lite2::Client::GroupingTokenResponseParser;
 
 =head1 NAME
 
@@ -149,7 +148,6 @@ sub new {
 
     # $self->{format} ||= 'json';
     $self->{response_parser} = OAuth::Lite2::Client::TokenResponseParser->new;
-    $self->{grouping_token_response_parser} = OAuth::Lite2::Client::GroupingTokenResponseParser->new;
 
     return $self;
 }
@@ -293,10 +291,6 @@ sub refresh_access_token {
 
 =item refresh_token
 
-=item target_client_id
-
-=item target_package_id
-
 =item scope
 
 =back
@@ -308,9 +302,7 @@ sub get_grouping_refresh_token {
 
     my %args = Params::Validate::validate(@_, {
         refresh_token       => 1,
-        target_client_id    => 1,
-        target_package_id   => 1,
-        scope               => 1,
+        scope               => { optional => 1 },
         uri                 => { optional => 1 },
         use_basic_schema    => { optional => 1 },
     });
@@ -323,10 +315,9 @@ sub get_grouping_refresh_token {
     my %params = (
         grant_type          => 'grouping_refresh_token',
         refresh_token       => $args{refresh_token},
-        target_client_id    => $args{target_client_id},
-        target_package_id   => $args{target_package_id},
-        scope               => $args{scope},
     );
+    $params{scope} = $args{scope}
+        if $args{scope};
 
     unless ($args{use_basic_schema}){
         $params{client_id}      = $self->{id};
@@ -347,7 +338,7 @@ sub get_grouping_refresh_token {
 
     my ($token, $errmsg);
     try {
-        $token = $self->{grouping_token_response_parser}->parse($res);
+        $token = $self->{response_parser}->parse($res);
     } catch {
         $errmsg = "$_";
     };

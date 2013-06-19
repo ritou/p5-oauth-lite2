@@ -53,9 +53,6 @@ sub add_client {
         secret  => $args{secret},
         user_id => $args{user_id} || 0,
         group_id  => $args{group_id} || undef,
-        package_id  => $args{package_id} || undef,
-        issue_grouping_refresh_token
-            => $args{issue_grouping_refresh_token} || 0,
     };
 }
 
@@ -215,19 +212,9 @@ sub validate_user_by_id {
     return ($user_id ne 666);
 }
 
-sub is_allowed_client_to_issue_grouping_refresh_token {
-    my ($self, $client_id) = @_;
-    return $CLIENTS{$client_id}{issue_grouping_refresh_token};
-}
-
 sub get_group_id_by_client_id {
     my ($self, $client_id) = @_;
     return $CLIENTS{$client_id}{group_id};
-}
-
-sub validate_client_package {
-    my ($self, %params) = @_;
-    return ($CLIENTS{$params{client_id}}{package_id} eq $params{package_id});
 }
 
 sub validate_grouping_scope {
