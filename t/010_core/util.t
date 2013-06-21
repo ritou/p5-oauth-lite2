@@ -1,14 +1,13 @@
 use strict;
 use warnings;
 
-use Test::More tests => 19;
+use Test::More tests => 11;
 
 use OAuth::Lite2::Util qw(
     encode_param
     decode_param
     parse_content
     build_content
-    is_equal_or_down_scope
 );
 
 use Hash::MultiValue;
@@ -54,48 +53,4 @@ TEST_BUILD_CONTENT: {
     );
     $content = build_content($params);
     is($content, 'aaa=bbb&bbb=ccc&ccc=ddd&ddd=eee&ddd=fff');
-};
-
-TEST_IS_EQUAL_OR_DOWN_SCOPE: {
-    my ($src_scope, $dst_scope, $result);
-
-    $src_scope = "";
-    $dst_scope = "";
-    $result = is_equal_or_down_scope( $src_scope, $dst_scope);
-    ok( $result, q{src and dst are empty});
-
-    $src_scope = "aaa";
-    $dst_scope = "aaa";
-    $result = is_equal_or_down_scope( $src_scope, $dst_scope);
-    ok( $result, q{scope is equal});
-
-    $src_scope = "aaa bbb";
-    $dst_scope = "bbb aaa";
-    $result = is_equal_or_down_scope( $src_scope, $dst_scope);
-    ok( $result, q{scope is equal});
-
-    $src_scope = "aaa";
-    $dst_scope = "";
-    $result = is_equal_or_down_scope( $src_scope, $dst_scope);
-    ok( $result, q{dst_scope is empty});
-
-    $src_scope = "bbb aaa";
-    $dst_scope = "aaa";
-    $result = is_equal_or_down_scope( $src_scope, $dst_scope);
-    ok( $result, q{dst_scope is down});
-
-    $src_scope = "";
-    $dst_scope = "aaa";
-    $result = is_equal_or_down_scope( $src_scope, $dst_scope);
-    ok( !$result, q{src_scope is empty});
-    
-    $src_scope = "aaa";
-    $dst_scope = "bbb aaa";
-    $result = is_equal_or_down_scope( $src_scope, $dst_scope);
-    ok( !$result, q{dst_scope is wide});
-
-    $src_scope = "aaa bbb";
-    $dst_scope = "bbb ccc";
-    $result = is_equal_or_down_scope( $src_scope, $dst_scope);
-    ok( !$result, q{dst_scope is wide});
 };

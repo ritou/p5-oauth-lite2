@@ -4,9 +4,6 @@ use warnings;
 use parent 'OAuth::Lite2::Server::GrantHandler';
 
 use Carp ();
-use OAuth::Lite2::Util qw(
-    is_equal_or_down_scope
-);
 use OAuth::Lite2::Server::Error;
 use OAuth::Lite2::ParamMethod::AuthHeader;
 
