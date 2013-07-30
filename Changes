@@ -2,6 +2,9 @@ Revision history for Perl extension OAuth::Lite2.
 
 {{$NEXT}}
 
+0.05 2013-07-30T05:16:26Z
+    - rebuild
+
 0.04 2013-07-30T04:46:27Z
     - fixed some bugs and WARNINGs
       * migrated to Minilla
