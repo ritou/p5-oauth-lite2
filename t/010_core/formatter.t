@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 30;
+use Test::More;
 
 use OAuth::Lite2::Formatters;
 use Try::Tiny;
@@ -62,7 +62,11 @@ TEST_JSON: {
 TEST_XML: {
     is($xml->name, "xml");
     is($xml->type, "application/xml");
-    is($xml->format($params1), '<?xml version="1.0" encoding="UTF-8"?><OAuth><expires_in>3600</expires_in><refresh_token>bar</refresh_token><access_token_secret>buz</access_token_secret><access_token>foo</access_token></OAuth>');
+    like($xml->format($params1), qr/\A<\?xml\sversion=\"1\.0\"\sencoding=\"UTF-8\"\?><OAuth>.+<\/OAuth>\z/);
+    like($xml->format($params1), qr/<expires_in>3600<\/expires_in>/);
+    like($xml->format($params1), qr/<refresh_token>bar<\/refresh_token>/);
+    like($xml->format($params1), qr/<access_token_secret>buz<\/access_token_secret>/);
+    like($xml->format($params1), qr/<access_token>foo<\/access_token>/);
 
     my $parsed = $xml->parse('<?xml version="1.0" encoding="UTF-8"?><OAuth><expires_in>3600</expires_in><refresh_token>bar</refresh_token><access_token_secret>buz</access_token_secret><access_token>foo</access_token></OAuth>');
 
@@ -94,3 +98,4 @@ TEST_FORM: {
 };
 
 # TODO invalid format test
+done_testing;

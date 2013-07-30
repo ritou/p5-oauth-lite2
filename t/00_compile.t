@@ -1,16 +1,18 @@
 use strict;
-use Test::More tests => 33;
+use Test::More;
+
 BEGIN {
     # core
     use_ok('OAuth::Lite2');
-
 
     use_ok('OAuth::Lite2::Formatters');
     use_ok('OAuth::Lite2::Formatter');
     use_ok('OAuth::Lite2::Formatter::JSON');
     use_ok('OAuth::Lite2::Formatter::XML');
+    use_ok('OAuth::Lite2::Formatter::Text');
     use_ok('OAuth::Lite2::Formatter::FormURLEncoded');
 
+    use_ok('OAuth::Lite2::ParamMethod');
     use_ok('OAuth::Lite2::ParamMethods');
     use_ok('OAuth::Lite2::ParamMethod::AuthHeader');
     use_ok('OAuth::Lite2::ParamMethod::FormEncodedBody');
@@ -30,19 +32,26 @@ BEGIN {
     use_ok('OAuth::Lite2::Agent::PSGIMock');
 
     # client
+    use_ok('OAuth::Lite2::Client::ClientCredentials');
     use_ok('OAuth::Lite2::Client::Error');
     use_ok('OAuth::Lite2::Client::Token');
     use_ok('OAuth::Lite2::Client::TokenResponseParser');
     use_ok('OAuth::Lite2::Client::WebServer');
     use_ok('OAuth::Lite2::Client::UsernameAndPassword');
 
+    # model
+    use_ok('OAuth::Lite2::Model::AccessToken');
+    use_ok('OAuth::Lite2::Model::AuthInfo');
+
     # server
     use_ok('OAuth::Lite2::Server::Error');
 
     use_ok('OAuth::Lite2::Server::Context');
+    use_ok('OAuth::Lite2::Server::DataHandler');
 
     use_ok('OAuth::Lite2::Server::GrantHandlers');
     use_ok('OAuth::Lite2::Server::GrantHandler::AuthorizationCode');
+    use_ok('OAuth::Lite2::Server::GrantHandler::ClientCredentials');
     use_ok('OAuth::Lite2::Server::GrantHandler::Password');
     use_ok('OAuth::Lite2::Server::GrantHandler::RefreshToken');
 
@@ -51,5 +60,4 @@ BEGIN {
     use_ok('Plack::Middleware::Auth::OAuth2::ProtectedResource');
 };
 
-
-
+done_testing;

@@ -92,13 +92,20 @@ sub get_auth_info_by_id {
 
 OAuth::Lite2::Server::DataHandler - Base class that specifies interface for data handler for your service.
 
-=head1 SYNOPSIS
-
 =head1 DESCRIPTION
 
 This specifies interface to handle data stored on your application.
 You have to inherit this, and implements subroutines according to the interface contract.
 This is proxy or adapter that connects OAuth::Lite2 library to your service.
+
+=head1 SYNOPSIS
+
+    package YourDataHandler;
+    
+    use strict;
+    use warnings;
+
+    use parent 'OAuth::Lite2::Server::DataHandler';
 
 =head1 METHODS
 

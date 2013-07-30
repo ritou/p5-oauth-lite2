@@ -56,7 +56,11 @@ This library leaves the other formatters for interop.
 
 =head2 get_formatter_by_name( $name )
 
+return formatter by name
+
 =head2 get_formatter_by_type( $content_type )
+
+return formatter by content type
 
 =head1 SEE ALSO
 

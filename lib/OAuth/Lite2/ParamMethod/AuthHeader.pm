@@ -1,17 +1,16 @@
 package OAuth::Lite2::ParamMethod::AuthHeader;
-
 use strict;
 use warnings;
-
+use bytes ();
 use parent 'OAuth::Lite2::ParamMethod';
-use OAuth::Lite2::Util qw(encode_param decode_param build_content);
+
+use URI;
+use MIME::Base64 qw(decode_base64);
+use Hash::MultiValue;
 use HTTP::Request;
 use HTTP::Headers;
-use URI;
-use bytes ();
 use Params::Validate;
-use Hash::MultiValue;
-use MIME::Base64 qw(decode_base64);
+use OAuth::Lite2::Util qw(encode_param decode_param build_content);
 
 =head1 NAME
 
@@ -66,8 +65,10 @@ Parse the L<Plack::Request>, and returns access token and oauth parameters.
 sub parse {
     my ($self, $req) = @_;
     my $header = $req->header("Authorization");
-    $header =~ s/^\s*(OAuth|Bearer)\s+([^\s\,]*)//;
-    my $token = $2;
+    my $token;
+    if ($header =~ s/^\s*(OAuth|Bearer)\s+([^\s\,]*)//){
+        $token = $2;
+    }
     my $params = Hash::MultiValue->new;
     $header =~ s/^\s*(OAuth|Bearer)\s*([^\s\,]*)//;
 
@@ -190,9 +191,8 @@ sub basic_credentials{
     my $header = $req->header("Authorization");
     return \%credentials unless (defined($header));
 
-    $header =~ /^\s*(Basic)(.*)$/;
     my $decoded;
-    if($header){
+    if ( $header =~ /\A\s*(Basic)\s([^\s\,]*)/ ){
         $decoded = decode_base64($2);
         return \%credentials unless (index($decoded,':') > 0);
 

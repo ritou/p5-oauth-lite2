@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 148;
+use Test::More;
 
 use OAuth::Lite2::ParamMethods qw(AUTH_HEADER FORM_BODY URI_QUERY);
 use Try::Tiny;
@@ -160,7 +160,7 @@ TEST_AUTH_HEADER: {
             buz => 'hoge',
         },
     );
-    is($req->uri, q{http://example.org/resource?buz=hoge&foo=bar});
+    like($req->uri, qr/\Ahttp:\/\/example\.org\/resource\?.+\z/);
     is($req->header("Authorization"), q{Bearer access_token_value});
     is(uc $req->method, q{GET});
     ok(!$req->content);
@@ -193,7 +193,7 @@ TEST_AUTH_HEADER: {
             buz => 'hoge',
         },
     );
-    is($req->uri, q{http://example.org/resource?buz=hoge&foo=bar});
+    like($req->uri, qr/\Ahttp:\/\/example\.org\/resource\?.+\z/);
     is($req->header("Authorization"), q{Bearer access_token_value});
     is(uc $req->method, q{GET});
     ok(!$req->content);
@@ -290,8 +290,87 @@ TEST_AUTH_HEADER: {
 #    my $p_req = Plack::Request->new;
 #    my ($token, $params) = $auth->parse($p_req);
 
+    # parse Basic Authorization Header
+    $p_req = Plack::Request->new({
+        REQUEST_URI        => q{http://example.org/resource},
+        REQUEST_METHOD     => q{GET},
+        HTTP_AUTHORIZATION => q{},
+        QUERY_STRING       => q{buz=hoge&foo=bar},
+    });
+    my $basic_clientcredentials = $auth->basic_credentials( $p_req );
+    is($basic_clientcredentials->{client_id}, q{});
+    is($basic_clientcredentials->{client_secret}, q{});
+
+    $p_req = Plack::Request->new({
+        REQUEST_URI        => q{http://example.org/resource},
+        REQUEST_METHOD     => q{GET},
+        HTTP_AUTHORIZATION => q{ },
+        QUERY_STRING       => q{buz=hoge&foo=bar},
+    });
+    $basic_clientcredentials = $auth->basic_credentials( $p_req );
+    is($basic_clientcredentials->{client_id}, q{});
+    is($basic_clientcredentials->{client_secret}, q{});
+
+    $p_req = Plack::Request->new({
+        REQUEST_URI        => q{http://example.org/resource},
+        REQUEST_METHOD     => q{GET},
+        HTTP_AUTHORIZATION => q{Invalid},
+        QUERY_STRING       => q{buz=hoge&foo=bar},
+    });
+    $basic_clientcredentials = $auth->basic_credentials( $p_req );
+    is($basic_clientcredentials->{client_id}, q{});
+    is($basic_clientcredentials->{client_secret}, q{});
+
+    $p_req = Plack::Request->new({
+        REQUEST_URI        => q{http://example.org/resource},
+        REQUEST_METHOD     => q{GET},
+        HTTP_AUTHORIZATION => q{Basic},
+        QUERY_STRING       => q{buz=hoge&foo=bar},
+    });
+    $basic_clientcredentials = $auth->basic_credentials( $p_req );
+    is($basic_clientcredentials->{client_id}, q{});
+    is($basic_clientcredentials->{client_secret}, q{});
+
+    $p_req = Plack::Request->new({
+        REQUEST_URI        => q{http://example.org/resource},
+        REQUEST_METHOD     => q{GET},
+        HTTP_AUTHORIZATION => q{Basic },
+        QUERY_STRING       => q{buz=hoge&foo=bar},
+    });
+    $basic_clientcredentials = $auth->basic_credentials( $p_req );
+    is($basic_clientcredentials->{client_id}, q{});
+    is($basic_clientcredentials->{client_secret}, q{});
+
+    $p_req = Plack::Request->new({
+        REQUEST_URI        => q{http://example.org/resource},
+        REQUEST_METHOD     => q{GET},
+        HTTP_AUTHORIZATION => q{Basic invalid},
+        QUERY_STRING       => q{buz=hoge&foo=bar},
+    });
+    $basic_clientcredentials = $auth->basic_credentials( $p_req );
+    is($basic_clientcredentials->{client_id}, q{});
+    is($basic_clientcredentials->{client_secret}, q{});
+
+    $p_req = Plack::Request->new({
+        REQUEST_URI        => q{http://example.org/resource},
+        REQUEST_METHOD     => q{GET},
+        HTTP_AUTHORIZATION => q{Basic aG9nZTpmdWdh},
+        QUERY_STRING       => q{buz=hoge&foo=bar},
+    });
+    $basic_clientcredentials = $auth->basic_credentials( $p_req );
+    is($basic_clientcredentials->{client_id}, q{hoge});
+    is($basic_clientcredentials->{client_secret}, q{fuga});
+
+    $p_req = Plack::Request->new({
+        REQUEST_URI        => q{http://example.org/resource},
+        REQUEST_METHOD     => q{GET},
+        HTTP_AUTHORIZATION => q{Basic aG9nZTpmdWdh },
+        QUERY_STRING       => q{buz=hoge&foo=bar},
+    });
+    $basic_clientcredentials = $auth->basic_credentials( $p_req );
+    is($basic_clientcredentials->{client_id}, q{hoge});
+    is($basic_clientcredentials->{client_secret}, q{fuga});
 };
-#
 
 TEST_FORM_BODY: {
 
@@ -601,3 +680,5 @@ TEST_URI_QUERY: {
     is($req->content, q{<content>value</content>});
 
 };
+
+done_testing;

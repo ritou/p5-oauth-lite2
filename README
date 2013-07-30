@@ -4,6 +4,9 @@ NAME
 DESCRIPTION
     OAuth 2.0 Library
 
+    The maintainer of this CPAN module was transferred to ritou by lyokato.
+    Main repository is https://github.com/ritou/p5-oauth-lite2.
+
 SEE ALSO
     Client
 
@@ -16,6 +19,7 @@ SEE ALSO
     Plack::Middleware::Auth::OAuth2::ProtectedResource
 
 AUTHOR
+    Ryo Ito, <ritou.06@gmail.com>
     Lyo Kato, <lyo.kato@gmail.com>
 
 COPYRIGHT AND LICENSE

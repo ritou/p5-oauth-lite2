@@ -16,7 +16,6 @@ sub handle_request {
     my $parser = OAuth::Lite2::ParamMethod::AuthHeader->new;
     my $header_credentials = $parser->basic_credentials($req);
     my $client_id = ($header_credentials->{client_id}) ? $header_credentials->{client_id} : $req->param("client_id");
-    my $client_secret = ($header_credentials->{client_secret}) ? $header_credentials->{client_secret} : $req->param("client_secret");
 
     my $refresh_token = $req->param("refresh_token")
         or OAuth::Lite2::Server::Error::InvalidRequest->throw(

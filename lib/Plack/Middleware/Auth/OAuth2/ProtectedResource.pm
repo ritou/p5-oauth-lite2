@@ -139,6 +139,9 @@ middleware for OAuth 2.0 Protected Resource endpoint
 
 =head2 call( $env )
 
+This method parses access token.
+If access token is valid, authorization information are set to environment variables.
+
 =head1 ENV VALUES
 
 After successful verifying authorization within middleware layer,

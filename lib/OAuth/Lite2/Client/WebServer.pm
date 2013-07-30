@@ -1,23 +1,19 @@
 package OAuth::Lite2::Client::WebServer;
-
 use strict;
 use warnings;
-
 use base 'Class::ErrorHandler';
-
-use Params::Validate qw(HASHREF);
-use Carp ();
 use bytes ();
+
 use URI;
+use Carp ();
+use Try::Tiny qw/try catch/;
 use LWP::UserAgent;
+use MIME::Base64 qw(encode_base64);
 use HTTP::Request;
 use HTTP::Headers;
-use Try::Tiny;
-use MIME::Base64 qw(encode_base64);
-
+use Params::Validate qw(HASHREF);
 use OAuth::Lite2;
 use OAuth::Lite2::Util qw(build_content);
-use OAuth::Lite2::Formatters;
 use OAuth::Lite2::Client::TokenResponseParser;
 
 =head1 NAME
@@ -278,7 +274,7 @@ sub get_access_token {
     my $headers = HTTP::Headers->new;
     $headers->header("Content-Type" => q{application/x-www-form-urlencoded});
     $headers->header("Content-Length" => bytes::length($content));
-    $headers->header("Authorization" => sprintf(q{Basic %s}, encode_base64($self->{id}.":".$self->{secret},''))) 
+    $headers->authorization_basic($self->{id}, $self->{secret})    
         if($args{use_basic_schema});
     my $req = HTTP::Request->new( POST => $args{uri}, $headers, $content );
 
@@ -344,7 +340,7 @@ sub refresh_access_token {
     my $headers = HTTP::Headers->new;
     $headers->header("Content-Type" => q{application/x-www-form-urlencoded});
     $headers->header("Content-Length" => bytes::length($content));
-    $headers->header("Authorization" => sprintf(q{Basic %s}, encode_base64($self->{id}.":".$self->{secret},''))) 
+    $headers->authorization_basic($self->{id}, $self->{secret})    
         if($args{use_basic_schema});
     my $req = HTTP::Request->new( POST => $args{uri}, $headers, $content );
 

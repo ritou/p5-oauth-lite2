@@ -1,17 +1,13 @@
 package OAuth::Lite2::Server::Endpoint::Token;
-
 use strict;
 use warnings;
-
 use overload
     q(&{})   => sub { shift->psgi_app },
     fallback => 1;
 
+use Try::Tiny qw/try catch/;
 use Plack::Request;
-use Try::Tiny;
 use Params::Validate;
-
-use OAuth::Lite2::Server::Context;
 use OAuth::Lite2::Formatters;
 use OAuth::Lite2::Server::Error;
 use OAuth::Lite2::Server::GrantHandlers;
@@ -195,17 +191,27 @@ This would be included in error responses.
 
 =head2 support_grant_type( $type )
 
+You can set 'authorization_code', 'password', 'client_credentials' or 'refresh_token'
+
 =head2 support_grant_types( @types )
 
-You can set 'authorization_code', 'password', or 'refresh_token'
+You can set 'authorization_code', 'password', 'client_credentials' or 'refresh_token'
 
 =head2 data_handler
 
+return your custom datahandler class
+
 =head2 psgi_app
+
+return psgi application
 
 =head2 compile_psgi_app
 
+compile psgi application
+
 =head2 handle_request( $req )
+
+parse access token request and call grant handler's method
 
 =head1 TEST
 

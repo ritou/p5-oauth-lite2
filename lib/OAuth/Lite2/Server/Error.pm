@@ -85,6 +85,8 @@ L<http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-5.2>
 
 =head1 METHODS
 
+There are following errors
+
 =head1 ERRORS
 
 =over 4
