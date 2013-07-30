@@ -1,5 +1,7 @@
 Revision history for Perl extension OAuth::Lite2.
 
+{{$NEXT}}
+
 0.03  Sun Mar 03 00:57:00 2013
     - bugfix by ritou
       https://github.com/lyokato/p5-oauth-lite2/pull/8

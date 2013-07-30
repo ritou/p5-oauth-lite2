@@ -11,3 +11,10 @@ tmon.out
 cover_db_view
 nytprof
 .DS_Store
+/oauth-lite2-*
+/.build
+/_build_params
+/Build
+!Build/
+!META.json
+!LICENSE
