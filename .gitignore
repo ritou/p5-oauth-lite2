@@ -13,6 +13,7 @@ nytprof
 .DS_Store
 /oauth-lite2-*
 /.build
+/_build
 /_build_params
 /Build
 !Build/
