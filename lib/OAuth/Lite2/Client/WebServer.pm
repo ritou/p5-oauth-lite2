@@ -15,6 +15,7 @@ use Params::Validate qw(HASHREF);
 use OAuth::Lite2;
 use OAuth::Lite2::Util qw(build_content);
 use OAuth::Lite2::Client::TokenResponseParser;
+use OAuth::Lite2::Client::StateResponseParser;
 
 =head1 NAME
 
@@ -174,6 +175,7 @@ sub new {
 
     $self->{format} ||= 'json';
     $self->{response_parser} = OAuth::Lite2::Client::TokenResponseParser->new;
+    $self->{state_response_parser} = OAuth::Lite2::Client::StateResponseParser->new;
 
     return $self;
 }
@@ -242,6 +244,7 @@ sub get_access_token {
     my %args = Params::Validate::validate(@_, {
         code            => 1,
         redirect_uri    => 1,
+        server_state    => { optional => 1 },
         uri             => { optional => 1 },
         use_basic_schema    => { optional => 1 },
         # secret_type => { optional => 1 },
@@ -261,6 +264,7 @@ sub get_access_token {
         redirect_uri  => $args{redirect_uri},
         # format      => $args{format},
     );
+    $params{server_state} = $args{server_state} if $args{server_state};
 
     unless ($args{use_basic_schema}){
         $params{client_id}      = $self->{id};
@@ -358,6 +362,48 @@ sub refresh_access_token {
 
 }
 
+=head2 get_server_state
+
+Obtain L<OAuth::Lite2::Client::ServerState> object.
+
+=cut
+sub get_server_state {
+    my $self = shift;
+
+    my %args = Params::Validate::validate(@_, {
+        uri           => { optional => 1 },
+    });
+
+    unless (exists $args{uri}) {
+        $args{uri} = $self->{access_token_uri}
+            || Carp::croak "uri not found";
+    }
+
+    my %params = (
+        grant_type => 'server_state',
+        client_id  => $self->{id},
+    );
+
+    my $content = build_content(\%params);
+    my $headers = HTTP::Headers->new;
+    $headers->header("Content-Type" => q{application/x-www-form-urlencoded});
+    $headers->header("Content-Length" => bytes::length($content));
+    my $req = HTTP::Request->new( POST => $args{uri}, $headers, $content );
+
+    my $res = $self->{agent}->request($req);
+    $self->{last_request}  = $req;
+    $self->{last_response} = $res;
+
+    my ($state, $errmsg);
+    try {
+        $state = $self->{state_response_parser}->parse($res);
+    } catch {
+        $errmsg = "$_";
+    };
+    return $state || $self->error($errmsg);
+
+}
+
 =head2 last_request
 
 Returns a HTTP::Request object that is used
@@ -374,6 +420,8 @@ sub last_request  { $_[0]->{last_request}  }
 sub last_response { $_[0]->{last_response} }
 
 =head1 AUTHOR
+
+Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 

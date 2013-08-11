@@ -10,6 +10,7 @@ use overload
 use Plack::Request;
 use Try::Tiny;
 use Params::Validate;
+use lib 't/lib';
 use TestDataHandler;
 
 use Plack::Middleware::Auth::OAuth2::ProtectedResource;

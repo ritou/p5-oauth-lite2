@@ -8,6 +8,10 @@ sub new {
     bless {}, $class;
 }
 
+sub is_required_client_authentication {
+    return 1;
+}
+
 sub handle_request {
     my ($self, $data_handler) = @_;
     die "abstract method";
@@ -28,6 +32,12 @@ OAuth::Lite2::Server::GrantHandler - base class of each grant_type handler
 
 Constructor
 
+=head2 is_required_client_authentication
+
+Return whether each grant type requires the client authentication
+The grant type which are defined in spec require client authentication, 
+but additional grant type may not.
+
 =head2 handle_request( $data_handler )
 
 processes passed L<OAuth::Lite2::Server::DataHandler>, and return
@@ -42,8 +52,11 @@ L<OAuth::Lite2::Server::GrantHandler::AuthorizationCode>
 L<OAuth::Lite2::Server::GrantHandler::Password>
 L<OAuth::Lite2::Server::GrantHandler::RefreshToken>
 L<OAuth::Lite2::Server::GrantHandler::GroupingRefreshToken>
+L<OAuth::Lite2::Server::GrantHandler::ServerState>
 
 =head1 AUTHOR
+
+Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 

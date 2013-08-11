@@ -10,11 +10,13 @@ use String::Random;
 use OAuth::Lite2::Server::Error;
 use OAuth::Lite2::Model::AuthInfo;
 use OAuth::Lite2::Model::AccessToken;
+use OAuth::Lite2::Model::ServerState;
 
 my %ID_POD = (
     auth_info    => 0,
     access_token => 0,
     user         => 0,
+    server_state => 0,
 );
 
 my %AUTH_INFO;
@@ -22,6 +24,7 @@ my %ACCESS_TOKEN;
 my %DEVICE_CODE;
 my %CLIENTS;
 my %USERS;
+my %SERVER_STATE;
 
 sub clear {
     my $class = shift;
@@ -45,6 +48,11 @@ sub gen_next_user_id {
 sub gen_next_access_token_id {
     my $class = shift;
     $ID_POD{access_token}++;
+}
+
+sub gen_next_server_state_id {
+    my $class = shift;
+    $ID_POD{server_state}++;
 }
 
 sub add_client {
@@ -123,6 +131,7 @@ sub create_or_update_auth_info {
     my $scope        = $params{scope};
     my $code         = $params{code};
     my $redirect_uri = $params{redirect_uri};
+    my $server_state = $params{server_state};
 
     my $id = ref($self)->gen_next_auth_info_id();
     my $refresh_token = sprintf q{refresh_token_%d}, $id;
@@ -136,6 +145,7 @@ sub create_or_update_auth_info {
     });
     $auth_info->code($code) if $code;
     $auth_info->redirect_uri($redirect_uri) if $redirect_uri;
+    $auth_info->server_state($server_state) if $server_state;
 
     $AUTH_INFO{$id} = $auth_info;
 
@@ -188,7 +198,10 @@ sub get_access_token {
 sub validate_client {
     my ($self, $client_id, $client_secret, $type) = @_;
     return 0 unless exists $CLIENTS{ $client_id };
+
     my $client = $CLIENTS{ $client_id };
+    return 1 if ( $type eq q{server_state} && $client );
+
     return 0 unless $client->{secret} eq $client_secret;
 
     if ($client_id eq 'aaa') {
@@ -225,5 +238,20 @@ sub validate_grouping_scope {
     return (grep {$_ eq q{grouping_scope}} @scopes);
 }
 
-1;
+sub create_server_state {
+    my ($self, %params) = @_;
 
+    my $id = ref($self)->gen_next_server_state_id();
+    my %attrs = (
+        client_id    => $params{client_id},
+        server_state => "server_state_".$id,
+        expires_in   => $params{expires_in} || 3600,
+        created_on   => time(),
+    );
+
+    my $state = OAuth::Lite2::Model::ServerState->new(\%attrs);
+    $SERVER_STATE{$state->server_state} = $state;
+    return $state;
+}
+
+1;

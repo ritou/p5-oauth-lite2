@@ -27,6 +27,8 @@ sub handle_request {
             description => "'redirect_uri' not found"
         );
 
+    my $server_state = $req->param("server_state");
+
     my $auth_info = $dh->get_auth_info_by_code($code)
         or OAuth::Lite2::Server::Error::InvalidGrant->throw;
 
@@ -40,6 +42,13 @@ sub handle_request {
     OAuth::Lite2::Server::Error::RedirectURIMismatch->throw
         unless ( $auth_info->redirect_uri
             && $auth_info->redirect_uri eq $redirect_uri);
+
+    if ( $auth_info->server_state ) {
+        OAuth::Lite2::Server::Error::InvalidServerState->throw
+            unless ( $server_state and $server_state eq $auth_info->server_state );
+    } else {
+        OAuth::Lite2::Server::Error::InvalidServerState->throw if ( $server_state );
+    }
 
     my $access_token = $dh->create_or_update_access_token(
         auth_info => $auth_info,
@@ -83,6 +92,8 @@ handler for 'authorization-code' grant_type request.
 See L<OAuth::Lite2::Server::GrantHandler> document.
 
 =head1 AUTHOR
+
+Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 

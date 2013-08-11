@@ -11,9 +11,9 @@ __PACKAGE__->mk_accessors(qw(
     client_id
     scope
     refresh_token
-
     code
     redirect_uri
+    server_state
 ));
 
 use Params::Validate;
@@ -31,6 +31,7 @@ sub new {
             refresh_token => { optional => 1 },
             code          => { optional => 1 },
             redirect_uri  => { optional => 1 },
+            server_state  => { optional => 1 },
         },
         allow_extra => 1,
     );
@@ -72,7 +73,13 @@ Authorization code related with authorization info
 
 Redirect URI related with authorization info
 
+=head2 server_state
+
+Server State for CSRF Protection
+
 =head1 AUTHOR
+
+Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 

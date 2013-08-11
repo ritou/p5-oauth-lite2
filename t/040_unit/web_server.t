@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
-use Test::More tests => 36;
+use Test::More;
 
 use TestDataHandler;
 use OAuth::Lite2::Server::Endpoint::Token;
@@ -27,7 +27,7 @@ my $app = OAuth::Lite2::Server::Endpoint::Token->new(
     data_handler => "TestDataHandler",
 );
 
-$app->support_grant_types(qw(authorization_code refresh_token));
+$app->support_grant_types(qw(authorization_code refresh_token server_state));
 
 my $agent = OAuth::Lite2::Agent::PSGIMock->new(app => $app);
 
@@ -132,3 +132,42 @@ is($res->refresh_token, q{refresh_token_0});
 is($res->expires_in, q{3600});
 ok(!$res->access_token_secret);
 is($res->scope, q{email});
+
+# use server_state
+my $state = $client->get_server_state;
+$auth_info = $dh->create_or_update_auth_info(
+    client_id    => q{foo},
+    user_id      => q{buz},
+    scope        => q{email},
+    redirect_uri => q{http://example.org/callback},
+    code         => q{valid_code_2},
+    server_state => $state->server_state,
+);
+## no server_state
+$res = $client->get_access_token(
+    code         => q{valid_code_2},
+    redirect_uri => q{http://example.org/callback},
+);
+ok(!$res, q{response should be undef});
+is($client->errstr, q{invalid_server_state}, q{server_state should be invalid});
+
+$res = $client->get_access_token(
+    code         => q{valid_code_2},
+    redirect_uri => q{http://example.org/callback},
+    server_state => q{invalid},
+);
+ok(!$res, q{response should be undef});
+is($client->errstr, q{invalid_server_state}, q{server_state should be invalid});
+
+$res = $client->get_access_token(
+    code         => q{valid_code_2},
+    redirect_uri => q{http://example.org/callback},
+    server_state => $state->server_state,
+);
+ok($res, q{response should be not undef});
+is($res->access_token, q{access_token_4});
+is($res->refresh_token, q{refresh_token_1});
+is($res->expires_in, q{3600});
+is($res->scope, q{email});
+
+done_testing;

@@ -97,6 +97,11 @@ sub validate_grouping_scope {
     die "abstract method";
 }
 
+sub create_server_state {
+    my ($self, %args) = @_;
+    die "abstract method";
+}
+
 =head1 NAME
 
 OAuth::Lite2::Server::DataHandler - Base class that specifies interface for data handler for your service.
@@ -220,7 +225,13 @@ If client_id has group_id, return it.
 
 If scope value is allowed, return 1.
 
+=head2 create_server_state ( $client_id )
+
+Create and save L<OAuth::Lite2::Model::ServerState> object.
+
 =head1 AUTHOR
+
+Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 

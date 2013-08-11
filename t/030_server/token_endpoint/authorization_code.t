@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
-use Test::More tests => 12;
+use Test::More;
 
 use Plack::Request;
 use Try::Tiny;
@@ -145,3 +145,57 @@ sub test_error {
     refresh_token => q{refresh_token_0},
 });
 
+# use server_state
+$auth_info = $dh->create_or_update_auth_info(
+    client_id    => q{foo},
+    user_id      => q{1},
+    scope        => q{email},
+    code         => q{code_bar_2},
+    redirect_uri => q{http://example.org/callback},
+    server_state => q{server_state_bar},
+);
+# missing server_state
+&test_error({
+    client_id     => q{foo},
+    code          => q{code_bar_2},
+    client_secret => q{secret_value},
+    redirect_uri  => q{http://example.org/callback},
+}, q{invalid_server_state});
+# invalid server_state
+&test_error({
+    client_id     => q{foo},
+    code          => q{code_bar_2},
+    client_secret => q{secret_value},
+    redirect_uri  => q{http://example.org/callback},
+    server_state  => q{server_state_foo},
+}, q{invalid_server_state});
+
+&test_success({
+    client_id     => q{foo},
+    code          => q{code_bar_2},
+    client_secret => q{secret_value},
+    redirect_uri  => q{http://example.org/callback},
+    server_state  => q{server_state_bar},
+}, {
+    token_type    => q{Bearer},
+    token         => q{access_token_1},
+    expires_in    => q{3600},
+    refresh_token => q{refresh_token_1},
+});
+
+$auth_info = $dh->create_or_update_auth_info(
+    client_id    => q{foo},
+    user_id      => q{1},
+    scope        => q{email},
+    code         => q{code_bar_3},
+    redirect_uri => q{http://example.org/callback},
+);
+&test_error({
+    client_id     => q{foo},
+    code          => q{code_bar_3},
+    client_secret => q{secret_value},
+    redirect_uri  => q{http://example.org/callback},
+    server_state  => q{server_state_foo},
+}, q{invalid_server_state});
+
+done_testing;

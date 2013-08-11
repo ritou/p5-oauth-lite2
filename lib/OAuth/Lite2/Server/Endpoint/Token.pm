@@ -101,9 +101,14 @@ sub handle_request {
         )unless($client_id);
 
         my $client_secret = ($header_credentials->{client_secret}) ? $header_credentials->{client_secret} : $request->param("client_secret");
-        OAuth::Lite2::Server::Error::InvalidRequest->throw(
-            description => q{'client_secret' not found},
-        )unless($client_secret);
+
+        # The grant type which are defined in spec require client authentication, 
+        # but additional grant type may not.
+        if ( $handler->is_required_client_authentication ) {
+            OAuth::Lite2::Server::Error::InvalidRequest->throw(
+                description => q{'client_secret' not found},
+            )unless($client_secret);
+        }
 
         $data_handler->validate_client($client_id, $client_secret, $type)
             or OAuth::Lite2::Server::Error::InvalidClient->throw;
@@ -235,6 +240,8 @@ You can test with L<OAuth::Lite2::Agent::PSGIMock> and some of client classes.
     is($token->access_token, q{access_token_value});
 
 =head1 AUTHOR
+
+Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 

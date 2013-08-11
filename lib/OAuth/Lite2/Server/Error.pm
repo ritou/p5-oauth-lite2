@@ -202,9 +202,16 @@ our @ISA = qw(OAuth::Lite2::Server::Error);
 sub code { 401 }
 sub type { "insufficient_scope" }
 
+package OAuth::Lite2::Server::Error::InvalidServerState;
+our @ISA = qw(OAuth::Lite2::Server::Error);
+sub code { 401 }
+sub type { "invalid_server_state" }
+
 package OAuth::Lite2::Server::Error;
 
 =head1 AUTHOR
+
+Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 
