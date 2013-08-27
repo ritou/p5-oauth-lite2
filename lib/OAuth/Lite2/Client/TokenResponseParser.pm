@@ -3,7 +3,7 @@ package OAuth::Lite2::Client::TokenResponseParser;
 use strict;
 use warnings;
 
-use Try::Tiny;
+use Try::Tiny qw/try catch/;
 use OAuth::Lite2::Formatters;
 use OAuth::Lite2::Client::Error;
 use OAuth::Lite2::Client::Token;
