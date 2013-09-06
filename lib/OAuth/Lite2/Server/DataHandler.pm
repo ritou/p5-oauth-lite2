@@ -94,9 +94,10 @@ OAuth::Lite2::Server::DataHandler - Base class that specifies interface for data
 
 =head1 DESCRIPTION
 
-This specifies interface to handle data stored on your application.
-You have to inherit this, and implements subroutines according to the interface contract.
-This is proxy or adapter that connects OAuth::Lite2 library to your service.
+This connects OAuth::Lite2 library to your service.
+
+This specifies an interface to handle data stored in your application. You must
+inherit this and implement the subroutines according to the interface contract.
 
 =head1 SYNOPSIS
 
@@ -111,7 +112,7 @@ This is proxy or adapter that connects OAuth::Lite2 library to your service.
 
 =head2 init
 
-If your subclass need some initiation, implement in this method.
+This method can be implemented to initialize your subclass.
 
 =head1 INTERFACES
 
@@ -121,19 +122,23 @@ Returns <Plack::Request> object.
 
 =head2 validate_client( $client_id, $client_secret, $grant_type )
 
-This interface is used on Token Endpoint.
-In spite of grant_type, all the time this method is called.
+This method is used by Token Endpoint. This method will be called all the time,
+regardless of the grant_type setting.
 
-You can check here the client_id is valid? and client credentials is not invalid?
-And the client is allowed to use this grant_type?
+This is the place to check if the client_id and client credentials are valid,
+as well as checking if the client is allowed to use this grant_type.
 
-If it's OK, return 1. Return 0 if not.
+If all the checks are successful, return 1. Otherwise return 0.
 
 =head2 get_user_id( $username, $password )
 
-This interface is used on Token Endpoint, when requested grant_type is 'password'.
-Username and password is passed. You check if the credentials is valid or not.
-And if it's OK, return the user's identifier that is managed on your service.
+This method is used by Token Endpoint, when requested grant_type is 'password'.
+
+The username and password are provided. You should check if the credentials are
+valid or not.
+
+If the checks are successful, return the user's identifier. The user's
+identifier is managed by your service.
 
 =head2 create_or_update_auth_info( %params )
 
@@ -147,57 +152,56 @@ Should return L<OAuth::Lite2::Model::AccessToken> object.
 
 =head2 get_auth_info_by_code( $code )
 
-This interface is used when client obtains access_token using authorization-code
-that would be issued by server with user's authorization.
-For instance, Web Server Profile requires this interface.
+This method is used when the client obtains an access_token using an
+authorization-code that was issued by server with user's authorization.
+
+The Web Server Profile requires this interface.
 
 Should return L<OAuth::Lite2::Model::AuthInfo> object.
 
 =head2 get_auth_info_by_refresh_token( $refresh_token )
 
-This interface is used when refresh access_token.
+This method is used when the access_token is refreshed.
 
 Should return L<OAuth::Lite2::Model::AuthInfo> object.
 
 =head2 get_access_token( $token )
 
-This interface is used on protected resource endpoint.
+This interface is used on a protected resource endpoint.
 See L<Plack::Middleware::Auth::OAuth2::ProtectedResource>.
-get attributes that belongs to the token that is included
-HTTP request accesses to the endpoint.
+
+Returns an access token which allows access to the protected attributes.
 Should return L<OAuth::Lite2::Model::AccessToken> object.
 
 =head2 get_auth_info_by_id( $auth_id )
 
-This interface is used on protected resource endpoint.
+This method is used on a protected resource endpoint.
 See L<Plack::Middleware::Auth::OAuth2::ProtectedResource>.
-This method is called after get_access_token method.
-get authorization-info that is related to the $auth_id
-that has relation with the access token.
+
+This method is called after the get_access_token method. Returns
+authorization-info that is related to the $auth_id and access-token.
 
 Should return L<OAuth::Lite2::Model::AuthInfo> object.
 
 =head2 validate_client_by_id( $client_id )
 
-This fook is called on protected resource endpoint.
+This hook is called on protected resource endpoint.
 See L<Plack::Middleware::Auth::OAuth2::ProtectedResource>.
 
-After checking if token is valid, furthermore you can check
-if the client related the token is valid in this method.
+After checking if the token is valid, you can check if the client related the
+token is valid in this method.
 
-If passed client_id is invalid for some reason, return 0.
-If OK, return 1.
+If the validation of the client_id is successful, return 1. Otherwise return 0.
 
 =head2 validate_user_by_id( $user_id )
 
 This hook is called on protected resource endpoint.
 See L<Plack::Middleware::Auth::OAuth2::ProtectedResource>.
 
-After checking if token is valid, furthermore you can check
-if the user related the token is valid in this method.
+After checking if token is valid, you can check if the user related the token
+is valid in this method.
 
-If passed user_id is invalid for some reason, return 0.
-If OK, return 1.
+If the validation of the user is successful, return 1. Otherwise return 0.
 
 =head1 AUTHOR
 
