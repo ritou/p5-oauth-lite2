@@ -367,6 +367,7 @@ sub refresh_access_token {
 Obtain L<OAuth::Lite2::Client::ServerState> object.
 
 =cut
+
 sub get_server_state {
     my $self = shift;
 
