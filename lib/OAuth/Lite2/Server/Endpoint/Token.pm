@@ -195,7 +195,7 @@ Optional. This URI indicates the page that should be presented on an error. This
 
 Indicates support for a specific grant type. This does not remove previously supported grant types. The available values are:
 
-=over4
+=over 4
 
 =item authorization_code
 

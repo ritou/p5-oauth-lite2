@@ -12,31 +12,41 @@ __END__
 
 OAuth::Lite2 - OAuth 2.0 Library
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 OAuth 2.0 Library
 
 The maintainer of this CPAN module was transferred to ritou by lyokato.
-Main repository is https://github.com/ritou/p5-oauth-lite2.
+Main repository is L<https://github.com/ritou/p5-oauth-lite2>.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
-Client
+=head3 Client
 
-L<OAuth::Lite2::Client::WebServer>
-L<OAuth::Lite2::Client::UsernameAndPassword>
+=over 4
 
-Server
+=item L<OAuth::Lite2::Client::WebServer>
 
-L<OAuth::Lite2::Server::Endpoint::Token>
-L<Plack::Middleware::Auth::OAuth2::ProtectedResource>
+=item L<OAuth::Lite2::Client::UsernameAndPassword>
 
-=head1 AUTHOR
+=back
+
+=head3 Server
+
+=over 4
+
+=item L<OAuth::Lite2::Server::Endpoint::Token>
+
+=item L<Plack::Middleware::Auth::OAuth2::ProtectedResource>
+
+=back
+
+=head2 AUTHOR
 
 Ryo Ito, E<lt>ritou.06@gmail.comE<gt>
 Lyo Kato, E<lt>lyo.kato@gmail.comE<gt>
 
-=head1 COPYRIGHT AND LICENSE
+=head2 COPYRIGHT AND LICENSE
 
 Copyright (C) 2010 by Lyo Kato
 

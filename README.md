@@ -13,13 +13,13 @@ Main repository is [https://github.com/ritou/p5-oauth-lite2](https://github.com/
 
 ### Client
 
- * [OAuth::Lite2::Client::WebServer](http://search.cpan.org/perldoc?OAuth::Lite2::Client::WebServer)
- * [OAuth::Lite2::Client::UsernameAndPassword](http://search.cpan.org/perldoc?OAuth::Lite2::Client::UsernameAndPassword)
+- [OAuth::Lite2::Client::WebServer](http://search.cpan.org/perldoc?OAuth::Lite2::Client::WebServer)
+- [OAuth::Lite2::Client::UsernameAndPassword](http://search.cpan.org/perldoc?OAuth::Lite2::Client::UsernameAndPassword)
 
 ### Server
 
- * [OAuth::Lite2::Server::Endpoint::Token](http://search.cpan.org/perldoc?OAuth::Lite2::Server::Endpoint::Token)
- * [Plack::Middleware::Auth::OAuth2::ProtectedResource](http://search.cpan.org/perldoc?Plack::Middleware::Auth::OAuth2::ProtectedResource)
+- [OAuth::Lite2::Server::Endpoint::Token](http://search.cpan.org/perldoc?OAuth::Lite2::Server::Endpoint::Token)
+- [Plack::Middleware::Auth::OAuth2::ProtectedResource](http://search.cpan.org/perldoc?Plack::Middleware::Auth::OAuth2::ProtectedResource)
 
 ## AUTHOR
 
