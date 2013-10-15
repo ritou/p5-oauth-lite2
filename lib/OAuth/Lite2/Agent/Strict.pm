@@ -8,7 +8,7 @@ use OAuth::Lite2::Client::Error;
 
 =head1 NAME
 
-OAuth::Lite2::Client::Agent::Strict - Preset User Agent class for strict SSL
+OAuth::Lite2::Agent::Strict - Preset User Agent class for strict SSL
 
 =head1 SYNOPSIS
 

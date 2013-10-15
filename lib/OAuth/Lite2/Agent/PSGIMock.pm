@@ -6,7 +6,7 @@ use warnings;
 use Params::Validate qw(CODEREF);
 use HTTP::Response;
 use HTTP::Message::PSGI;
-use Try::Tiny;
+use Try::Tiny qw/try catch/;
 
 =head1 NAME
 

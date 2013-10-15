@@ -7,7 +7,7 @@ use LWP::UserAgent;
 
 =head1 NAME
 
-OAuth::Lite2::Client::Agent - Base class of preset-agents.
+OAuth::Lite2::Agent - Base class of preset-agents.
 
 =head1 SYNOPSIS
 

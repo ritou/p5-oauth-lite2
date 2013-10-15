@@ -8,7 +8,7 @@ use Data::Dump qw(dump);
 
 =head1 NAME
 
-OAuth::Lite2::Client::Agent::Dump - Preset User Agent class for debug
+OAuth::Lite2::Agent::Dump - Preset User Agent class for debug
 
 =head1 SYNOPSIS
 
