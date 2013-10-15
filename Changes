@@ -2,6 +2,15 @@ Revision history for Perl extension OAuth::Lite2.
 
 {{$NEXT}}
 
+0.06 2013-10-15T09:10:21Z
+    - update POD by matthewfranglen
+      https://github.com/ritou/p5-oauth-lite2/pull/1
+      https://github.com/ritou/p5-oauth-lite2/pull/2
+    - add support for two new grant types
+      * "grouping_refresh_token" : obtain access_token from refresh_token of the same grouped client
+      * "server_state" : for CSRF Protection of Authorization Code grant
+    - fix some bugs and WARNINGs
+
 0.05 2013-07-30T05:16:26Z
     - rebuild
 
