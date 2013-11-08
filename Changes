@@ -2,13 +2,16 @@ Revision history for Perl extension OAuth::Lite2.
 
 {{$NEXT}}
 
+0.07 2013-11-08T16:12:48Z
+    - replace JSON to JSON::XS
+
 0.06 2013-10-15T09:10:21Z
     - update POD by matthewfranglen
-      https://github.com/ritou/p5-oauth-lite2/pull/1
-      https://github.com/ritou/p5-oauth-lite2/pull/2
+        - https://github.com/ritou/p5-oauth-lite2/pull/1
+        - https://github.com/ritou/p5-oauth-lite2/pull/2
     - add support for two new grant types
-      * "grouping_refresh_token" : obtain access_token from refresh_token of the same grouped client
-      * "server_state" : for CSRF Protection of Authorization Code grant
+        - "grouping_refresh_token" : obtain access_token from refresh_token of the same grouped client
+        - "server_state" : for CSRF Protection of Authorization Code grant
     - fix some bugs and WARNINGs
 
 0.05 2013-07-30T05:16:26Z
@@ -16,26 +19,26 @@ Revision history for Perl extension OAuth::Lite2.
 
 0.04 2013-07-30T04:46:27Z
     - fixed some bugs and WARNINGs
-      * migrated to Minilla
-      * removed podchecker's WARNINGs
-      * fixed uuv for parsing Basic Auth header
-      * fixed tests for Perl 5.18.0 env
-      * used authorization_basic method to generate basic authorization header
-      * removed unused method
+        - migrated to Minilla
+        - removed podchecker's WARNINGs
+        - fixed uuv for parsing Basic Auth header
+        - fixed tests for Perl 5.18.0 env
+        - used authorization_basic method to generate basic authorization header
+        - removed unused method
 
 0.03  Sun Mar 03 00:57:00 2013
     - bugfix by ritou
-      https://github.com/lyokato/p5-oauth-lite2/pull/8
-      https://github.com/lyokato/p5-oauth-lite2/pull/7
+        - https://github.com/lyokato/p5-oauth-lite2/pull/8
+        - https://github.com/lyokato/p5-oauth-lite2/pull/7
 
 0.02_03  Wed Jun 20 17:40:00 2012
     - bugfix by ritou
-      https://github.com/lyokato/p5-oauth-lite2/pull/6
+        - https://github.com/lyokato/p5-oauth-lite2/pull/6
 
 0.02_01  Sat Jun 15 09:20:00 2012
     - updated to draft27 spec
-      https://github.com/lyokato/p5-oauth-lite2/pull/5
-      Thanks to ritou
+        - https://github.com/lyokato/p5-oauth-lite2/pull/5
+          Thanks to ritou
 
 0.01_14  Mon Nov 7 19:50:00 2011
     - removed non-SSL warning

@@ -55,7 +55,7 @@
             "Digest::SHA" : "5.48",
             "Hash::MultiValue" : "0.08",
             "IO::String" : "1.08",
-            "JSON" : "2.21",
+            "JSON::XS" : "0",
             "LWP::UserAgent" : "0",
             "Params::Validate" : "0.95",
             "Plack" : "0.09942",
@@ -79,7 +79,7 @@
          "web" : "https://github.com/ritou/p5-oauth-lite2"
       }
    },
-   "version" : "0.06",
+   "version" : "0.07",
    "x_contributors" : [
       "Kato Kazuyoshi <kato.kazuyoshi@gmail.com>",
       "HIROSE Masaaki <hirose31@gmail.com>",
