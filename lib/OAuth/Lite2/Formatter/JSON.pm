@@ -5,7 +5,7 @@ use warnings;
 
 use parent 'OAuth::Lite2::Formatter';
 
-use JSON;
+use JSON::XS;
 use Try::Tiny;
 
 sub name { "json" }
@@ -13,12 +13,12 @@ sub type { "application/json" };
 
 sub format {
     my ($self, $hash) = @_;
-    return JSON->new->encode($hash);
+    return JSON::XS->new->encode($hash);
 }
 
 sub parse {
     my ($self, $json) = @_;
-    return JSON->new->decode($json);
+    return JSON::XS->new->decode($json);
 }
 
 =head1 NAME

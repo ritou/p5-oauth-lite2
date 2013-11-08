@@ -4,7 +4,7 @@ requires 'Data::Dump', '1.17';
 requires 'Digest::SHA', '5.48';
 requires 'Hash::MultiValue', '0.08';
 requires 'IO::String', '1.08';
-requires 'JSON', '2.21';
+requires 'JSON::XS', '0';
 requires 'LWP::UserAgent';
 requires 'Params::Validate', '0.95';
 requires 'Plack', '0.09942';
