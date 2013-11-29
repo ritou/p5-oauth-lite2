@@ -31,6 +31,12 @@ sub get_formatter_by_name {
 sub get_formatter_by_type {
     my ($class, $type) = @_;
     return unless $type;
+
+    # If content-type includes subtype, top-level media type is only used.
+    if ($type =~ /;/){
+        $type = $`;
+    }
+
     return $FORMATTERS_BY_TYPE{$type};
 }
 

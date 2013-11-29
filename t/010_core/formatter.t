@@ -14,6 +14,8 @@ TEST_FACTORY: {
     isa_ok($json, "OAuth::Lite2::Formatter::JSON");
     $json = OAuth::Lite2::Formatters->get_formatter_by_type("application/json");
     isa_ok($json, "OAuth::Lite2::Formatter::JSON");
+    $json = OAuth::Lite2::Formatters->get_formatter_by_type("application/json; charset=utf-8");
+    isa_ok($json, "OAuth::Lite2::Formatter::JSON");
 
     $xml = OAuth::Lite2::Formatters->get_formatter_by_name("xml");
     isa_ok($xml, "OAuth::Lite2::Formatter::XML");
