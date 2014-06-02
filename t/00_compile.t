@@ -59,6 +59,7 @@ BEGIN {
     use_ok('OAuth::Lite2::Server::GrantHandler::Password');
     use_ok('OAuth::Lite2::Server::GrantHandler::RefreshToken');
     use_ok('OAuth::Lite2::Server::GrantHandler::ServerState');
+    use_ok('OAuth::Lite2::Server::GrantHandler::ExternalService');
 
     use_ok('OAuth::Lite2::Server::Endpoint::Token');
 

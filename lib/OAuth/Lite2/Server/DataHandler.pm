@@ -102,6 +102,11 @@ sub create_server_state {
     die "abstract method";
 }
 
+sub get_user_id_by_external_assertion{
+    my ($self, %args) = @_;
+    die "abstract method";
+}
+
 =head1 NAME
 
 OAuth::Lite2::Server::DataHandler - Base class that specifies interface for data handler for your service.
@@ -228,6 +233,13 @@ If scope value is allowed, return 1.
 =head2 create_server_state ( $client_id )
 
 Create and save L<OAuth::Lite2::Model::ServerState> object.
+
+=head2 get_user_id_by_external_assertion ( %params )
+
+This method is used by Token Endpoint, when requested grant_type is 'federation-bearer'.
+
+The external service assertion is provided. You should check if the related external service account is valid or not.
+If the checks are successful, return the user's identifier. The user's identifier is managed by your service.
 
 =head1 AUTHOR
 

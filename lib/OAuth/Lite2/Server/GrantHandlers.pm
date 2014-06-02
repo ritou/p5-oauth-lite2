@@ -9,6 +9,7 @@ use OAuth::Lite2::Server::GrantHandler::RefreshToken;
 use OAuth::Lite2::Server::GrantHandler::ClientCredentials;
 use OAuth::Lite2::Server::GrantHandler::GroupingRefreshToken;
 use OAuth::Lite2::Server::GrantHandler::ServerState;
+use OAuth::Lite2::Server::GrantHandler::ExternalService;
 
 my %HANDLERS;
 
@@ -25,10 +26,13 @@ __PACKAGE__->add_handler( 'refresh_token' =>
     OAuth::Lite2::Server::GrantHandler::RefreshToken->new );
 __PACKAGE__->add_handler( 'client_credentials' =>
     OAuth::Lite2::Server::GrantHandler::ClientCredentials->new );
+# Grant types which is not defined in RFC
 __PACKAGE__->add_handler( 'grouping_refresh_token' =>
     OAuth::Lite2::Server::GrantHandler::GroupingRefreshToken->new );
 __PACKAGE__->add_handler( 'server_state' =>
     OAuth::Lite2::Server::GrantHandler::ServerState->new );
+__PACKAGE__->add_handler( 'urn:ietf:params:oauth:grant-type:federation-bearer' =>
+    OAuth::Lite2::Server::GrantHandler::ExternalService->new );
 
 #__PACKAGE__->add_handler( 'assertion' => );
 #__PACKAGE__->add_handler( 'none' => );
@@ -70,6 +74,7 @@ L<OAuth::Lite2::Server::GrantHandler::Password>
 L<OAuth::Lite2::Server::GrantHandler::RefreshToken>
 L<OAuth::Lite2::Server::GrantHandler::GroupingRefreshToken>
 L<OAuth::Lite2::Server::GrantHandler::ServerState>
+L<OAuth::Lite2::Server::GrantHandler::ExternalService>
 
 =head1 AUTHOR
 

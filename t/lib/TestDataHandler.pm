@@ -17,6 +17,7 @@ my %ID_POD = (
     access_token => 0,
     user         => 0,
     server_state => 0,
+    ext_account  => 0,
 );
 
 my %AUTH_INFO;
@@ -25,6 +26,7 @@ my %DEVICE_CODE;
 my %CLIENTS;
 my %USERS;
 my %SERVER_STATE;
+my %EXT_ACCOUNT;
 
 sub clear {
     my $class = shift;
@@ -33,6 +35,7 @@ sub clear {
     %DEVICE_CODE = ();
     %CLIENTS = ();
     %USERS = ();
+    %EXT_ACCOUNT = ();
 }
 
 sub gen_next_auth_info_id {
@@ -68,6 +71,17 @@ sub add_user {
     my ($class, %args) = @_;
     $USERS{ $args{username} } = {
         password => $args{password},
+    };
+}
+
+sub add_ext_account {
+    my ($class, %args) = @_;
+    $EXT_ACCOUNT{ $args{assertion} } = {
+        id             => $args{id},
+        client_id      => $args{client_id},
+        assertion_type => $args{assertion_type},
+        assertion_iss  => $args{assertion_iss},
+        assertion_aud  => $args{assertion_aud},
     };
 }
 
@@ -170,15 +184,6 @@ sub create_or_update_access_token {
         created_on => time(),
     );
 
-    #my $secret_type = $params{secret_type};
-    #if ($secret_type) {
-    #    # check if $secret_type is supported
-    #    OAuth::Lite2::Error::UnsupportedSecretType->throw
-    #        if ($secret_type ne 'hmac-sha256');
-    #    $attrs{secret_type} = $secret_type;
-    #}
-    #$attrs{secret} = sprintf q{access_token_secret_%d}, $id if $secret_type;
-
     my $access_token = OAuth::Lite2::Model::AccessToken->new(\%attrs);
     $ACCESS_TOKEN{$auth_id} = $access_token;
     return $access_token;
@@ -252,6 +257,23 @@ sub create_server_state {
     my $state = OAuth::Lite2::Model::ServerState->new(\%attrs);
     $SERVER_STATE{$state->server_state} = $state;
     return $state;
+}
+
+sub get_user_id_by_external_assertion{
+    my ($self, %params) = @_;
+
+    return unless ($params{assertion} && exists $EXT_ACCOUNT{$params{assertion}});
+    return unless ($params{client_id} && $EXT_ACCOUNT{$params{assertion}}{client_id} eq $params{client_id});
+    if ($EXT_ACCOUNT{$params{assertion}}{assertion_type}) {
+        return unless ($EXT_ACCOUNT{$params{assertion}}{assertion_type} eq $params{assertion_type});
+    }
+    if ($EXT_ACCOUNT{$params{assertion}}{assertion_iss}) {
+        return unless ($EXT_ACCOUNT{$params{assertion}}{assertion_iss} eq $params{assertion_iss});
+    }
+    if ($EXT_ACCOUNT{$params{assertion}}{assertion_aud}) {
+        return unless ($EXT_ACCOUNT{$params{assertion}}{assertion_aud} eq $params{assertion_aud});
+    }
+    return $EXT_ACCOUNT{$params{assertion}}{id};
 }
 
 1;
