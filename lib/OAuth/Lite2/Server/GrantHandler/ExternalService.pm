@@ -64,7 +64,7 @@ sub handle_request {
 
 =head1 NAME
 
-OAuth::Lite2::Server::GrantHandler::ExternalService - handler for 'federation-bearer' grant_type request
+OAuth::Lite2::Server::GrantHandler::ExternalService - handler for 'federated-assertion' grant_type request
 
 =head1 SYNOPSIS
 
@@ -73,7 +73,7 @@ OAuth::Lite2::Server::GrantHandler::ExternalService - handler for 'federation-be
 
 =head1 DESCRIPTION
 
-handler for 'federation-bearer' grant_type request.
+handler for 'federated-assertion' grant_type request.
 
 =head1 METHODS
 
