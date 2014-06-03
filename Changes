@@ -3,7 +3,7 @@ Revision history for Perl extension OAuth::Lite2.
 {{$NEXT}}
 
 0.08 2014-06-03T07:54:41Z
-    - add support for two new grant types
+    - add support for new grant types
         - "urn:ietf:params:oauth:grant-type:federated-assertion" : obtain access_token from external service assertion
 
 0.07 2013-11-08T16:12:48Z
