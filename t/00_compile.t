@@ -40,6 +40,7 @@ BEGIN {
     use_ok('OAuth::Lite2::Client::UsernameAndPassword');
     use_ok('OAuth::Lite2::Client::ServerState');
     use_ok('OAuth::Lite2::Client::StateResponseParser');
+    use_ok('OAuth::Lite2::Client::ExternalService');
 
     # model
     use_ok('OAuth::Lite2::Model::AccessToken');
