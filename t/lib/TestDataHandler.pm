@@ -79,9 +79,9 @@ sub add_ext_account {
     $EXT_ACCOUNT{ $args{assertion} } = {
         id             => $args{id},
         client_id      => $args{client_id},
-        assertion_type => $args{assertion_type},
-        assertion_iss  => $args{assertion_iss},
-        assertion_aud  => $args{assertion_aud},
+        type => $args{type},
+        iss  => $args{iss},
+        aud  => $args{aud},
     };
 }
 
@@ -264,14 +264,14 @@ sub get_user_id_by_external_assertion{
 
     return unless ($params{assertion} && exists $EXT_ACCOUNT{$params{assertion}});
     return unless ($params{client_id} && $EXT_ACCOUNT{$params{assertion}}{client_id} eq $params{client_id});
-    if ($EXT_ACCOUNT{$params{assertion}}{assertion_type}) {
-        return unless ($EXT_ACCOUNT{$params{assertion}}{assertion_type} eq $params{assertion_type});
+    if ($EXT_ACCOUNT{$params{assertion}}{type}) {
+        return unless ($EXT_ACCOUNT{$params{assertion}}{type} eq $params{type});
     }
-    if ($EXT_ACCOUNT{$params{assertion}}{assertion_iss}) {
-        return unless ($EXT_ACCOUNT{$params{assertion}}{assertion_iss} eq $params{assertion_iss});
+    if ($EXT_ACCOUNT{$params{assertion}}{iss}) {
+        return unless ($EXT_ACCOUNT{$params{assertion}}{iss} eq $params{iss});
     }
-    if ($EXT_ACCOUNT{$params{assertion}}{assertion_aud}) {
-        return unless ($EXT_ACCOUNT{$params{assertion}}{assertion_aud} eq $params{assertion_aud});
+    if ($EXT_ACCOUNT{$params{assertion}}{aud}) {
+        return unless ($EXT_ACCOUNT{$params{assertion}}{aud} eq $params{aud});
     }
     return $EXT_ACCOUNT{$params{assertion}}{id};
 }

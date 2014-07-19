@@ -25,9 +25,9 @@ sub handle_request {
     my $user_id = $dh->get_user_id_by_external_assertion(
         client_id      => $client_id,
         assertion      => $assertion,
-        assertion_type => $req->param("assertion_type") || '',
-        assertion_iss  => $req->param("assertion_iss")  || '',
-        assertion_aud  => $req->param("assertion_aud")  || '',
+        type => $req->param("type") || '',
+        iss  => $req->param("iss")  || '',
+        aud  => $req->param("aud")  || '',
     ) or OAuth::Lite2::Server::Error::InvalidGrant->throw;
 
     my $scope = $req->param("scope");
