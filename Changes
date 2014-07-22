@@ -2,6 +2,10 @@ Revision history for Perl extension OAuth::Lite2.
 
 {{$NEXT}}
 
+0.09 2014-07-22T07:36:43Z
+    - rename grant_type to external_service
+    - rename params for grant_type=external_service
+
 0.08 2014-06-03T07:54:41Z
     - add support for new grant types
         - "urn:ietf:params:oauth:grant-type:federated-assertion" : obtain access_token from external service assertion
