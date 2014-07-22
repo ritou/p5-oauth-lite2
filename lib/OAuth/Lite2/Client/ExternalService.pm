@@ -157,11 +157,11 @@ sub new {
 
 =item assertion
 
-=item assertion_type
+=item type
 
-=item assertion_iss
+=item iss
 
-=item assertion_aud
+=item aud
 
 =item scope
 
@@ -174,9 +174,9 @@ sub get_access_token {
 
     my %args = Params::Validate::validate(@_, {
         assertion        => 1,
-        assertion_type   => { optional => 1 },
-        assertion_iss    => { optional => 1 },
-        assertion_aud    => { optional => 1 },
+        type   => { optional => 1 },
+        iss    => { optional => 1 },
+        aud    => { optional => 1 },
         scope            => { optional => 1 },
         uri              => { optional => 1 },
         use_basic_schema => { optional => 1 },
@@ -188,7 +188,7 @@ sub get_access_token {
     }
 
     my %params = (
-        grant_type => 'urn:ietf:params:oauth:grant-type:federated-assertion',
+        grant_type => 'external_service',
         assertion  => $args{assertion},
     );
 
@@ -198,12 +198,12 @@ sub get_access_token {
     }
 
     # optional params
-    $params{assertion_type} = $args{assertion_type}
-        if $args{assertion_type};
-    $params{assertion_iss} = $args{assertion_iss}
-        if $args{assertion_iss};
-    $params{assertion_aud} = $args{assertion_aud}
-        if $args{assertion_aud};
+    $params{type} = $args{type}
+        if $args{type};
+    $params{iss} = $args{iss}
+        if $args{iss};
+    $params{aud} = $args{aud}
+        if $args{aud};
     $params{scope} = $args{scope}
         if $args{scope};
 

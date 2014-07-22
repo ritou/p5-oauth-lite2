@@ -14,9 +14,9 @@ TestDataHandler->clear;
 TestDataHandler->add_client(id => q{foo}, secret => q{bar});
 TestDataHandler->add_ext_account(assertion => q{assertion_1}, id => q{user_1}, client_id => q{foo});
 TestDataHandler->add_ext_account(assertion => q{assertion_2}, id => q{user_1}, client_id => q{foo_2});
-TestDataHandler->add_ext_account(assertion => q{assertion_3}, id => q{user_1}, client_id => q{foo}, assertion_type => q{type_3});
-TestDataHandler->add_ext_account(assertion => q{assertion_4}, id => q{user_1}, client_id => q{foo}, assertion_iss  => q{iss_4});
-TestDataHandler->add_ext_account(assertion => q{assertion_5}, id => q{user_1}, client_id => q{foo}, assertion_aud  => q{aud_5});
+TestDataHandler->add_ext_account(assertion => q{assertion_3}, id => q{user_1}, client_id => q{foo}, type => q{type_3});
+TestDataHandler->add_ext_account(assertion => q{assertion_4}, id => q{user_1}, client_id => q{foo}, iss  => q{iss_4});
+TestDataHandler->add_ext_account(assertion => q{assertion_5}, id => q{user_1}, client_id => q{foo}, aud  => q{aud_5});
 
 my $dh = TestDataHandler->new;
 
@@ -111,21 +111,21 @@ sub test_error {
     assertion     => q{assertion_2},
 }, q{invalid_grant});
 
-# invalid assertion_type
+# invalid type
 &test_error({
     client_id     => q{foo},
     client_secret => q{bar},
     assertion     => q{assertion_3},
 }, q{invalid_grant});
 
-# invalid assertion_iss
+# invalid iss
 &test_error({
     client_id     => q{foo},
     client_secret => q{bar},
     assertion     => q{assertion_4},
 }, q{invalid_grant});
 
-# invalid assertion_aud
+# invalid aud
 &test_error({
     client_id     => q{foo},
     client_secret => q{bar},
@@ -146,7 +146,7 @@ sub test_error {
     client_id      => q{foo},
     client_secret  => q{bar},
     assertion      => q{assertion_3},
-    assertion_type => q{type_3},
+    type => q{type_3},
 }, {
     token_type    => q{Bearer},
     token         => q{access_token_1},
@@ -157,7 +157,7 @@ sub test_error {
     client_id     => q{foo},
     client_secret => q{bar},
     assertion     => q{assertion_4},
-    assertion_iss => q{iss_4},
+    iss => q{iss_4},
 }, {
     token_type    => q{Bearer},
     token         => q{access_token_2},
@@ -168,7 +168,7 @@ sub test_error {
     client_id     => q{foo},
     client_secret => q{bar},
     assertion     => q{assertion_5},
-    assertion_aud => q{aud_5},
+    aud => q{aud_5},
 }, {
     token_type    => q{Bearer},
     token         => q{access_token_3},

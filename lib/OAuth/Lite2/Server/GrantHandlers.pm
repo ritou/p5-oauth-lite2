@@ -31,7 +31,7 @@ __PACKAGE__->add_handler( 'grouping_refresh_token' =>
     OAuth::Lite2::Server::GrantHandler::GroupingRefreshToken->new );
 __PACKAGE__->add_handler( 'server_state' =>
     OAuth::Lite2::Server::GrantHandler::ServerState->new );
-__PACKAGE__->add_handler( 'urn:ietf:params:oauth:grant-type:federated-assertion' =>
+__PACKAGE__->add_handler( 'external_service' =>
     OAuth::Lite2::Server::GrantHandler::ExternalService->new );
 
 #__PACKAGE__->add_handler( 'assertion' => );

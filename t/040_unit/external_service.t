@@ -13,9 +13,9 @@ TestDataHandler->clear;
 TestDataHandler->add_client(id => q{foo}, secret => q{bar});
 TestDataHandler->add_ext_account(assertion => q{assertion_1}, id => q{user_1}, client_id => q{foo});
 TestDataHandler->add_ext_account(assertion => q{assertion_2}, id => q{user_1}, client_id => q{foo_2});
-TestDataHandler->add_ext_account(assertion => q{assertion_3}, id => q{user_1}, client_id => q{foo}, assertion_type => q{type_3});
-TestDataHandler->add_ext_account(assertion => q{assertion_4}, id => q{user_1}, client_id => q{foo}, assertion_iss  => q{iss_4});
-TestDataHandler->add_ext_account(assertion => q{assertion_5}, id => q{user_1}, client_id => q{foo}, assertion_aud  => q{aud_5});
+TestDataHandler->add_ext_account(assertion => q{assertion_3}, id => q{user_1}, client_id => q{foo}, type => q{type_3});
+TestDataHandler->add_ext_account(assertion => q{assertion_4}, id => q{user_1}, client_id => q{foo}, iss  => q{iss_4});
+TestDataHandler->add_ext_account(assertion => q{assertion_5}, id => q{user_1}, client_id => q{foo}, aud  => q{aud_5});
 
 my $dh = TestDataHandler->new;
 
@@ -23,7 +23,7 @@ my $app = OAuth::Lite2::Server::Endpoint::Token->new(
     data_handler => "TestDataHandler",
 );
 
-$app->support_grant_types(qw( urn:ietf:params:oauth:grant-type:federated-assertion refresh_token));
+$app->support_grant_types(qw( external_service refresh_token));
 
 my $agent = OAuth::Lite2::Agent::PSGIMock->new(app => $app);
 
@@ -55,7 +55,7 @@ is($client->errstr, q{invalid_grant}, q{assertion should be invalid});
 
 $res = $client->get_access_token(
     assertion      => q{assertion_3},
-    assertion_type => q{type_0},
+    type => q{type_0},
 );
 ok(!$res, q{response should be undef});
 is($client->errstr, q{invalid_grant}, q{assertion should be invalid});
@@ -68,7 +68,7 @@ is($client->errstr, q{invalid_grant}, q{assertion should be invalid});
 
 $res = $client->get_access_token(
     assertion      => q{assertion_4},
-    assertion_iss => q{iss_0},
+    iss => q{iss_0},
 );
 ok(!$res, q{response should be undef});
 is($client->errstr, q{invalid_grant}, q{assertion should be invalid});
@@ -81,7 +81,7 @@ is($client->errstr, q{invalid_grant}, q{assertion should be invalid});
 
 $res = $client->get_access_token(
     assertion      => q{assertion_5},
-    assertion_iss => q{aud_0},
+    iss => q{aud_0},
 );
 ok(!$res, q{response should be undef});
 is($client->errstr, q{invalid_grant}, q{assertion should be invalid});
@@ -97,7 +97,7 @@ is($res->expires_in, q{3600});
 
 $res = $client->get_access_token(
     assertion      => q{assertion_3},
-    assertion_type => q{type_3},
+    type => q{type_3},
 );
 ok($res, q{response should be not undef});
 is($res->access_token, q{access_token_1});
@@ -106,7 +106,7 @@ is($res->expires_in, q{3600});
 
 $res = $client->get_access_token(
     assertion      => q{assertion_4},
-    assertion_iss => q{iss_4},
+    iss => q{iss_4},
 );
 ok($res, q{response should be not undef});
 is($res->access_token, q{access_token_2});
@@ -115,7 +115,7 @@ is($res->expires_in, q{3600});
 
 $res = $client->get_access_token(
     assertion      => q{assertion_5},
-    assertion_aud => q{aud_5},
+    aud => q{aud_5},
 );
 ok($res, q{response should be not undef});
 is($res->access_token, q{access_token_3});
