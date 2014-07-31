@@ -79,9 +79,8 @@ OAuth::Lite2::Server::Error - OAuth 2.0 server errors
 OAuth 2.0 error classes.
 
 See
-L<http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-3.2>,
-L<http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-4.3>,
-L<http://tools.ietf.org/html/draft-ietf-oauth-v2-09#section-5.2>
+L<http://tools.ietf.org/html/draft-ietf-oauth-v2-09>,
+L<http://tools.ietf.org/html/rfc6749>,
 
 =head1 METHODS
 
@@ -91,29 +90,39 @@ There are following errors
 
 =over 4
 
-=item OAuth::Lite2::Server::Error::AccessDenied
-
-=item OAuth::Lite2::Server::Error::ExpiredToken
-
-=item OAuth::Lite2::Server::Error::ExpiredTokenLegacy
-
 =item OAuth::Lite2::Server::Error::InvalidRequest
-
-=item OAuth::Lite2::Server::Error::InvalidToken
 
 =item OAuth::Lite2::Server::Error::InvalidClient
 
-=item OAuth::Lite2::Server::Error::InvalidGrant
-
-=item OAuth::Lite2::Server::Error::InvalidScope
+=item OAuth::Lite2::Server::Error::UnauthorizedClient
 
 =item OAuth::Lite2::Server::Error::RedirectURIMismatch
 
-=item OAuth::Lite2::Server::Error::UnauthorizedClient
+=item OAuth::Lite2::Server::Error::AccessDenied
+
+=item OAuth::Lite2::Server::Error::UnsupportedResponseType
+
+=item OAuth::Lite2::Server::Error::UnsupportedResourceType
+
+=item OAuth::Lite2::Server::Error::InvalidGrant
 
 =item OAuth::Lite2::Server::Error::UnsupportedGrantType
 
-=item OAuth::Lite2::Server::Error::UnsupportedResourceType
+=item OAuth::Lite2::Server::Error::InvalidScope
+
+=item OAuth::Lite2::Server::Error::InvalidToken
+
+=item OAuth::Lite2::Server::Error::ExpiredTokenLegacy
+
+=item OAuth::Lite2::Server::Error::ExpiredToken
+
+=item OAuth::Lite2::Server::Error::InsufficientScope
+
+=item OAuth::Lite2::Server::Error::InvalidServerState
+
+=item OAuth::Lite2::Server::Error::TemporarilyUnavailable
+
+=item OAuth::Lite2::Server::Error::ServerError
 
 =back
 
@@ -163,6 +172,10 @@ our @ISA = qw(OAuth::Lite2::Server::Error);
 sub code { 401 }
 sub type { "access_denied" }
 
+package OAuth::Lite2::Server::Error::UnsupportedResponseType;
+our @ISA = qw(OAuth::Lite2::Server::Error);
+sub type { "unsupported_response_type" }
+
 package OAuth::Lite2::Server::Error::UnsupportedResourceType;
 our @ISA = qw(OAuth::Lite2::Server::Error);
 sub type { "unsupported_resource_type" }
@@ -206,6 +219,17 @@ package OAuth::Lite2::Server::Error::InvalidServerState;
 our @ISA = qw(OAuth::Lite2::Server::Error);
 sub code { 401 }
 sub type { "invalid_server_state" }
+
+# Generally, the client knows the state of the server by HTTP Status Code.
+package OAuth::Lite2::Server::Error::TemporarilyUnavailable;
+our @ISA = qw(OAuth::Lite2::Server::Error);
+sub code { 503 }
+sub type { "temporarily_unavailable" }
+
+package OAuth::Lite2::Server::Error::ServerError;
+our @ISA = qw(OAuth::Lite2::Server::Error);
+sub code { 500 }
+sub type { "server_error" }
 
 package OAuth::Lite2::Server::Error;
 
