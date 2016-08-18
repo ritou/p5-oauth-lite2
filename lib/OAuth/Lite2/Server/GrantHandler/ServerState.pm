@@ -31,7 +31,7 @@ sub handle_request {
 
     my $res = {
         server_state    => $server_state->server_state,
-        expires_in      => $server_state->expires_in
+        expires_in      => int($server_state->expires_in),
     };
     return $res;
 }
