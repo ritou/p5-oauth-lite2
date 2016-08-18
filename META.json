@@ -4,7 +4,7 @@
       "Ryo Ito, <ritou.06@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Minilla/v2.1.1, CPAN::Meta::Converter version 2.141170",
+   "generated_by" : "Minilla/v3.0.0, CPAN::Meta::Converter version 2.150005",
    "license" : [
       "perl_5"
    ],
@@ -34,7 +34,7 @@
       },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.38"
+            "Module::Build::Tiny" : "0.035"
          }
       },
       "develop" : {
@@ -78,12 +78,14 @@
          "web" : "https://github.com/ritou/p5-oauth-lite2"
       }
    },
-   "version" : "0.10",
+   "version" : "0.11",
    "x_contributors" : [
       "Kato Kazuyoshi <kato.kazuyoshi@gmail.com>",
       "HIROSE Masaaki <hirose31@gmail.com>",
       "Dann <techmemo@gmail.com>",
       "lyokato <lyo.kato@gmail.com>",
-      "Matthew Franglen <matthew.franglen@semantico.net>"
-   ]
+      "Matthew Franglen <matthew.franglen@semantico.net>",
+      "Géraud CONTINSOUZAS <geraud@gcu.info>"
+   ],
+   "x_serialization_backend" : "JSON::PP version 2.27203"
 }

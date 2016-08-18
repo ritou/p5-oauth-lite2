@@ -2,6 +2,11 @@ Revision history for Perl extension OAuth::Lite2.
 
 {{$NEXT}}
 
+0.11 2016-08-18T14:25:05Z
+    - Force numeric context for 'expires_in'.
+        - https://github.com/ritou/p5-oauth-lite2/pull/8
+          Thanks to GeJ
+
 0.10 2014-07-31T09:30:02Z
     - add errors defined in RFC6749
 
